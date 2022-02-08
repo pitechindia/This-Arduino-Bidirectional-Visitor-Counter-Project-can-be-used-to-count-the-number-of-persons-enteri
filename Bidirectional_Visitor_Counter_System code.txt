@@ -1,0 +1,100 @@
+// include header file for LCD.....
+#include <LiquidCrystal.h>
+LiquidCrystal lcd(8, 9, 10, 11, 12, 13);
+
+//define Incoming Sensor pin....
+int  in = 5;
+
+//define Outgoing Sensor pin....
+int out = 6;
+
+//define LED Indicator pin....
+int led = 4;
+
+// Variable to count No. of Person Inside...
+int count = 0;
+
+void setup() {
+
+  // set up the LCD's number of columns and rows:
+  lcd.begin(16, 2);
+
+  //set up sensors and led ...
+  
+  pinMode(in, INPUT);
+  pinMode(out, INPUT);
+  pinMode(led, OUTPUT);
+  
+  // Print a message to the LCD.
+  lcd.print(" Pi-Tech India");
+
+  // set the cursor to column 0, line 1
+  lcd.setCursor(0, 1);
+  //Print another message in next row...
+  lcd.print(" Er. Eddie Yadav ");
+  delay(1000);
+  //clear lcd after some delay to print next text......
+  lcd.clear();
+
+  lcd.setCursor(0, 0);
+  lcd.print("Visitor Counter");
+  lcd.setCursor(0, 1);
+  lcd.print("System");
+  delay(500);
+}
+
+void loop() {
+  // Sensor Detect and Read Value and Condition executes... 
+  if (digitalRead(in))
+  {
+    //Calling Function
+    IN();
+  }
+  if (digitalRead(out))
+  {
+    //Calling Function
+    OUT();
+  }
+  if (count <= 0)
+  {
+    lcd.clear();
+    lcd.print("No One is Inside");
+    digitalWrite(led, LOW);
+    delay(500);
+
+  }
+  else
+  {
+    digitalWrite(led, HIGH);
+  }
+}
+// Incoming Function...
+void IN()
+{
+  count++;
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Comming IN");
+  lcd.setCursor(0, 1);
+  lcd.print("P Inside=");
+  lcd.print(count);
+  delay(500);
+
+}
+// OUTGOING Function...
+void OUT()
+{
+  count--;
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Going OUT");
+  lcd.setCursor(0, 1);
+  lcd.print("P Inside=");
+  if (count < 0)
+  {
+    count == 0;
+  }
+  lcd.print(count);
+  delay(500);
+
+}
